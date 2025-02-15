@@ -1,76 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Number Roller</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 18px;
-            cursor: pointer;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        #result {
-            font-size: 24px;
-            margin-top: 20px;
-        }
-        #catImage {
-            margin-top: 20px;
-            max-width: 500px;
-            max-height: 500px;
-        }
-        .controls {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        input {
-            padding: 8px;
-            margin-right: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cat Roll Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    button {
+      font-size: 20px;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+    img {
+      margin-top: 20px;
+      max-width: 500px;
+      max-height: 500px;
+    }
+    #message {
+      font-size: 24px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-    <div class="controls">
-        <input type="text" id="searchTerm" placeholder="Enter search term (e.g. cat, dog, car)" value="cat">
-    </div>
-    <button onclick="rollNumber()">Roll</button>
-    <div id="result"></div>
-    <img id="catImage" style="display: none;">
 
-    <script>
-        function rollNumber() {
-            const randomNumber = Math.floor(Math.random() * 10001);
-            document.getElementById('result').textContent = randomNumber;
-            
-            const img = document.getElementById('catImage');
-            const searchTerm = document.getElementById('searchTerm').value.trim() || 'cat';
-            img.style.display = 'block';
-            
-            // Using picsum.photos which provides random images
-            img.src = `https://picsum.photos/seed/${randomNumber}/400/300`;
-            
-            // Fallback text if image fails to load
-            img.alt = `Random ${searchTerm} image #${randomNumber}`;
-        }
-    </script>
+<h1>Cat Roll Game</h1>
+<p>Click the button to roll a number and find a cat image!</p>
+
+<button id="rollButton">Roll</button>
+<div id="message"></div>
+<img id="catImage" style="display:none;" alt="Cat Image">
+
+<script>
+  // Function to simulate the roll and display the image
+  document.getElementById('rollButton').onclick = async function() {
+    // Roll a random number from 0 to 10000
+    let rollNumber = Math.floor(Math.random() * 10001);
+    
+    // Display the rolled number
+    document.getElementById('message').textContent = `You rolled: ${rollNumber}`;
+    
+    // Build the URL for the cat image (assuming a site that hosts cat images with the "cat ROLLEDNUMBER" naming scheme)
+    let imageUrl = `https://placekitten.com/800/800?image=${rollNumber}`;
+
+    // Try to display the image
+    let catImage = document.getElementById('catImage');
+    catImage.src = imageUrl;
+
+    // Wait for the image to load and then display it
+    catImage.onload = function() {
+      catImage.style.display = 'block';
+    };
+    
+    catImage.onerror = function() {
+      catImage.style.display = 'none';
+      document.getElementById('message').textContent += ` (Sorry, no cat image found for roll ${rollNumber})`;
+    };
+  };
+</script>
+
 </body>
 </html>
