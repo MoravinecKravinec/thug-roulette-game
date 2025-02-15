@@ -36,16 +36,21 @@
             margin-bottom: 20px;
             color: #0066cc;
             text-decoration: none;
+            font-size: 18px;
+            padding: 10px 20px;
+            background-color: #f8f8f8;
+            border-radius: 5px;
+            border: 1px solid #ddd;
         }
         #searchLink:hover {
-            text-decoration: underline;
+            background-color: #e8e8e8;
         }
-        #imageFrame {
-            width: 800px;
-            height: 600px;
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        .instructions {
+            margin-top: 20px;
+            color: #666;
+            text-align: center;
+            max-width: 600px;
+            line-height: 1.4;
         }
     </style>
 </head>
@@ -53,7 +58,10 @@
     <button onclick="rollNumber()">Roll</button>
     <div id="result"></div>
     <a id="searchLink" target="_blank"></a>
-    <iframe id="imageFrame" style="display: none;"></iframe>
+    <div class="instructions">
+        Click the link above to see your random cat images. 
+        Due to security restrictions, images must be viewed on Yandex's website.
+    </div>
 
     <script>
         function rollNumber() {
@@ -61,15 +69,11 @@
             document.getElementById('result').textContent = `Rolled: ${randomNumber}`;
             
             const searchTerm = `cat ${randomNumber}`;
-            const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(searchTerm)}&tbm=isch`;
+            const searchUrl = `https://yandex.com/images/search?text=${encodeURIComponent(searchTerm)}`;
             
             const link = document.getElementById('searchLink');
             link.href = searchUrl;
-            link.textContent = `Click to see images for "${searchTerm}"`;
-            
-            const frame = document.getElementById('imageFrame');
-            frame.style.display = 'block';
-            frame.src = searchUrl;
+            link.textContent = `🖼 View images for "${searchTerm}"`;
         }
     </script>
 </body>
