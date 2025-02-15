@@ -1,68 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cat Roll Game</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin-top: 50px;
-    }
-    button {
-      font-size: 20px;
-      padding: 10px 20px;
-      cursor: pointer;
-    }
-    img {
-      margin-top: 20px;
-      max-width: 500px;
-      max-height: 500px;
-    }
-    #message {
-      font-size: 24px;
-      font-weight: bold;
-      margin-top: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat Number Roller</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 20px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        #searchLink {
+            margin-bottom: 20px;
+            color: #0066cc;
+            text-decoration: none;
+        }
+        #searchLink:hover {
+            text-decoration: underline;
+        }
+        #imageFrame {
+            width: 800px;
+            height: 600px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+    </style>
 </head>
 <body>
+    <button onclick="rollNumber()">Roll</button>
+    <div id="result"></div>
+    <a id="searchLink" target="_blank"></a>
+    <iframe id="imageFrame" style="display: none;"></iframe>
 
-<h1>Cat Roll Game</h1>
-<p>Click the button to roll a number and find a cat image!</p>
-
-<button id="rollButton">Roll</button>
-<div id="message"></div>
-<img id="catImage" style="display:none;" alt="Cat Image">
-
-<script>
-  // Function to simulate the roll and display the image
-  document.getElementById('rollButton').onclick = async function() {
-    // Roll a random number from 0 to 10000
-    let rollNumber = Math.floor(Math.random() * 10001);
-    
-    // Display the rolled number
-    document.getElementById('message').textContent = `You rolled: ${rollNumber}`;
-    
-    // Build the URL for the cat image (assuming a site that hosts cat images with the "cat ROLLEDNUMBER" naming scheme)
-    let imageUrl = `https://placekitten.com/800/800?image=${rollNumber}`;
-
-    // Try to display the image
-    let catImage = document.getElementById('catImage');
-    catImage.src = imageUrl;
-
-    // Wait for the image to load and then display it
-    catImage.onload = function() {
-      catImage.style.display = 'block';
-    };
-    
-    catImage.onerror = function() {
-      catImage.style.display = 'none';
-      document.getElementById('message').textContent += ` (Sorry, no cat image found for roll ${rollNumber})`;
-    };
-  };
-</script>
-
+    <script>
+        function rollNumber() {
+            const randomNumber = Math.floor(Math.random() * 10001);
+            document.getElementById('result').textContent = `Rolled: ${randomNumber}`;
+            
+            const searchTerm = `cat ${randomNumber}`;
+            const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(searchTerm)}&tbm=isch`;
+            
+            const link = document.getElementById('searchLink');
+            link.href = searchUrl;
+            link.textContent = `Click to see images for "${searchTerm}"`;
+            
+            const frame = document.getElementById('imageFrame');
+            frame.style.display = 'block';
+            frame.src = searchUrl;
+        }
+    </script>
 </body>
-</html>
+</html> 
